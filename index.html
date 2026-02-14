@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calle Jane Millares Sall — Los rostros de nuestras calles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --arena: #F5E6CC;
+            --arena-claro: #FDF6EC;
+            --texto: #2C1810;
+            --ocre: #C4803B;
+            --azul: #1A5276;
+            --verde: #4A7C59;
+            --borde: #D4A574;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--texto);
+            line-height: 1.35;
+            font-size: 11.5px;
+            background: #D4A574;
+            min-height: 100vh;
+        }
+
+        /* ── The poster ── */
+        .poster {
+            width: 1120px;
+            max-width: 100%;
+            margin: 0 auto;
+            position: relative;
+            background: var(--arena);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='16' fill='none' stroke='%232C1810' stroke-width='.7' opacity='.04'/%3E%3Ccircle cx='40' cy='40' r='6' fill='none' stroke='%232C1810' stroke-width='.5' opacity='.04'/%3E%3Cline x1='40' y1='24' x2='40' y2='14' stroke='%232C1810' stroke-width='.5' opacity='.04'/%3E%3Cline x1='40' y1='56' x2='40' y2='66' stroke='%232C1810' stroke-width='.5' opacity='.04'/%3E%3Cline x1='24' y1='40' x2='14' y2='40' stroke='%232C1810' stroke-width='.5' opacity='.04'/%3E%3Cline x1='56' y1='40' x2='66' y2='40' stroke='%232C1810' stroke-width='.5' opacity='.04'/%3E%3C/svg%3E");
+            border: 4px solid var(--borde);
+            box-shadow: 0 8px 40px rgba(0,0,0,.25);
+            display: grid;
+            grid-template-columns: 310px 1fr 280px;
+            grid-template-rows: auto 1fr auto;
+            gap: 0;
+        }
+
+        /* ── Header band ── */
+        .header {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--azul) 0%, #1B4F72 60%, var(--verde) 100%);
+            color: white;
+            text-align: center;
+            padding: 14px 30px 12px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--ocre), var(--arena), var(--ocre));
+        }
+
+        .header .sub {
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: .7;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            margin: 2px 0 1px;
+            letter-spacing: 1px;
+        }
+
+        .header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--arena);
+        }
+
+        .header .alumnos {
+            font-size: 10px;
+            opacity: .75;
+            margin-top: 4px;
+        }
+
+        /* ── Left column ── */
+        .col-left {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-right: 2px solid var(--borde);
+        }
+
+        /* Portrait */
+        .retrato {
+            text-align: center;
+        }
+
+        .retrato-frame {
+            display: inline-block;
+            border: 3px solid var(--borde);
+            border-radius: 50%;
+            padding: 4px;
+            background: white;
+            box-shadow: 0 3px 12px rgba(44,24,16,.15);
+        }
+
+        .retrato-frame img {
+            display: block;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .retrato-placeholder {
+            display: none;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--arena) 0%, #E8D5B7 100%);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .retrato-nombre {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--azul);
+            margin-top: 6px;
+        }
+
+        .retrato-fechas {
+            font-size: 10px;
+            color: #8B7D6B;
+            font-style: italic;
+        }
+
+        /* Info card */
+        .info-card {
+            background: white;
+            border: 1px solid var(--borde);
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .info-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 12px;
+            color: var(--azul);
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #E8D5B7;
+        }
+
+        .info-card p, .info-card li {
+            font-size: 10.5px;
+            line-height: 1.4;
+        }
+
+        .info-card ul {
+            padding-left: 14px;
+            margin: 0;
+        }
+
+        .info-card ul li {
+            margin-bottom: 2px;
+        }
+
+        .dato-row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 3px;
+        }
+
+        .dato-label {
+            font-weight: 700;
+            color: var(--ocre);
+            min-width: 65px;
+            font-size: 10px;
+        }
+
+        .dato-val {
+            font-size: 10px;
+        }
+
+        /* Reconocimientos */
+        .reconocimientos li {
+            list-style: none;
+            padding: 3px 0 3px 12px;
+            position: relative;
+            font-size: 10px;
+        }
+
+        .reconocimientos li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--ocre);
+            border-radius: 50%;
+        }
+
+        .reconocimientos {
+            padding: 0;
+            margin: 0;
+        }
+
+        /* ── Center column ── */
+        .col-center {
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow: hidden;
+        }
+
+        .seccion-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--azul);
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--borde);
+        }
+
+        .bio-text {
+            column-count: 2;
+            column-gap: 16px;
+            font-size: 10.5px;
+            line-height: 1.45;
+            text-align: justify;
+        }
+
+        .bio-text p {
+            margin-bottom: 6px;
+        }
+
+        .bio-text strong {
+            color: var(--azul);
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .timeline-chip {
+            background: white;
+            border: 1px solid var(--borde);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 9.5px;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .timeline-chip .year {
+            font-weight: 700;
+            color: var(--ocre);
+        }
+
+        /* Why a street */
+        .motivos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .motivo {
+            background: white;
+            border: 1px solid var(--borde);
+            border-radius: 6px;
+            padding: 6px 8px 6px 28px;
+            font-size: 10px;
+            position: relative;
+            line-height: 1.35;
+        }
+
+        .motivo .num {
+            position: absolute;
+            left: 6px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            background: var(--azul);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+        }
+
+        .motivo:last-child {
+            grid-column: 1 / -1;
+        }
+
+        /* ── Right column ── */
+        .col-right {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-left: 2px solid var(--borde);
+        }
+
+        /* Map */
+        .mapa-box {
+            border: 2px solid var(--borde);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .mapa-box iframe {
+            display: block;
+            width: 100%;
+            height: 150px;
+        }
+
+        .mapa-link {
+            display: block;
+            text-align: center;
+            font-size: 9px;
+            color: var(--azul);
+            padding: 4px;
+            text-decoration: none;
+            background: rgba(26,82,118,.06);
+        }
+
+        .mapa-link:hover { text-decoration: underline; }
+
+        /* Location info */
+        .ubicacion-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .ubicacion-tag {
+            font-size: 9px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            border: 1px solid var(--borde);
+            background: white;
+        }
+
+        .ubicacion-tag.hl {
+            background: var(--verde);
+            color: white;
+            border-color: var(--verde);
+            font-weight: 600;
+        }
+
+        /* Photo placeholders */
+        .foto-ph {
+            flex: 1;
+            min-height: 80px;
+            background: linear-gradient(135deg, #E8D5B7, #D4C4A8);
+            border: 2px dashed var(--borde);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 4px;
+            color: #9B8B7A;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .foto-ph svg { width: 24px; height: 24px; opacity: .4; }
+        .foto-ph span { font-size: 9px; font-style: italic; }
+
+        /* ── Footer band ── */
+        .footer {
+            grid-column: 1 / -1;
+            background: var(--texto);
+            color: var(--arena);
+            text-align: center;
+            padding: 7px 20px;
+            font-size: 9px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer span { opacity: .6; }
+
+        /* ── Decorative corners ── */
+        .poster::before, .poster::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-color: var(--ocre);
+            opacity: .3;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .poster::before {
+            top: 80px;
+            left: 10px;
+            border-top: 3px solid;
+            border-left: 3px solid;
+        }
+
+        .poster::after {
+            bottom: 35px;
+            right: 10px;
+            border-bottom: 3px solid;
+            border-right: 3px solid;
+        }
+
+        /* ── Pintadera decorative SVG ── */
+        .pintadera-deco {
+            position: absolute;
+            opacity: .07;
+            pointer-events: none;
+        }
+
+        @media screen {
+            body {
+                padding: 15px;
+            }
+        }
+
+        /* ── Print ── */
+        @media print {
+            body { background: white; padding: 0; }
+            .poster {
+                width: 100%;
+                box-shadow: none;
+                border: 1px solid #ccc;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* ── Responsive: stack on small screens ── */
+        @media (max-width: 900px) {
+            .poster {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                width: 100%;
+            }
+            .col-left, .col-right {
+                border: none;
+                border-bottom: 2px solid var(--borde);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="poster" id="poster">
+
+    <!-- Decorative pintadera -->
+    <svg class="pintadera-deco" style="bottom:50px;left:320px;" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" stroke="#2C1810" stroke-width="2" fill="none"/><circle cx="30" cy="30" r="10" stroke="#2C1810" stroke-width="1.5" fill="none"/><circle cx="30" cy="30" r="4" fill="#2C1810"/></svg>
+
+    <!-- ═══ HEADER ═══ -->
+    <header class="header">
+        <div class="sub">Trabajo 2.&ordf; Evaluaci&oacute;n &mdash; &laquo;Los rostros de nuestras calles&raquo;</div>
+        <h1>Los rostros de nuestras calles</h1>
+        <h2>Calle Jane Millares Sall</h2>
+        <div class="alumnos">Igor Dyadyuchenko &amp; Elia Alejandra Alverca Quishpe</div>
+    </header>
+
+    <!-- ═══ LEFT COLUMN ═══ -->
+    <div class="col-left">
+
+        <!-- Portrait -->
+        <div class="retrato">
+            <div class="retrato-frame">
+                <img
+                    src="janemillares.png"
+                    alt="Jane Millares Sall"
+                    id="img-jane"
+                    onerror="this.style.display='none'; document.getElementById('ph-jane').style.display='flex';"
+                >
+                <div class="retrato-placeholder" id="ph-jane">
+                    <svg width="40" height="40" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="10" stroke="#C4803B" stroke-width="2"/><path d="M12 52C12 40 20 34 30 34C40 34 48 40 48 52" stroke="#C4803B" stroke-width="2" fill="none"/></svg>
+                </div>
+            </div>
+            <div class="retrato-nombre">Jane Millares Sall</div>
+            <div class="retrato-fechas">Las Palmas, 1928 &ndash; 2022</div>
+        </div>
+
+        <!-- Datos clave -->
+        <div class="info-card">
+            <h4>Datos personales</h4>
+            <div class="dato-row"><span class="dato-label">Nombre:</span><span class="dato-val">M.&ordf; del Carmen Millares Sall</span></div>
+            <div class="dato-row"><span class="dato-label">Nacimiento:</span><span class="dato-val">2 de agosto de 1928, LPGC</span></div>
+            <div class="dato-row"><span class="dato-label">Fallecimiento:</span><span class="dato-val">2 de noviembre de 2022 (94 a&ntilde;os)</span></div>
+            <div class="dato-row"><span class="dato-label">Padres:</span><span class="dato-val">Juan Millares Carl&oacute; y Dolores Sall</span></div>
+            <div class="dato-row"><span class="dato-label">Esposo:</span><span class="dato-val">Luis Jorge Ram&iacute;rez (periodista)</span></div>
+            <div class="dato-row"><span class="dato-label">Hijos:</span><span class="dato-val">Cinco</span></div>
+            <div class="dato-row"><span class="dato-label">Formaci&oacute;n:</span><span class="dato-val">Autodidacta</span></div>
+        </div>
+
+        <!-- Familia artista -->
+        <div class="info-card">
+            <h4>La familia Millares Sall</h4>
+            <p style="margin-bottom:4px;">Una de las familias m&aacute;s importantes de la cultura canaria del siglo XX:</p>
+            <ul style="font-size:10px;">
+                <li><strong>Manolo</strong> &ndash; pintor (Arpilleras)</li>
+                <li><strong>Eduardo</strong> &ndash; humorista (Cho Jua&aacute;)</li>
+                <li><strong>Jos&eacute; Mar&iacute;a</strong> &ndash; poeta (Premio Nacional)</li>
+                <li><strong>Agust&iacute;n</strong> &ndash; poeta (Premio Canarias)</li>
+                <li><strong>Totoyo</strong> &ndash; timplista (Premio Canarias)</li>
+            </ul>
+        </div>
+
+        <!-- Reconocimientos -->
+        <div class="info-card">
+            <h4>Reconocimientos</h4>
+            <ul class="reconocimientos">
+                <li>Hija Predilecta de LPGC (2003)</li>
+                <li>Can de Plata (2005)</li>
+                <li>Medalla de Oro del Gob. de Canarias (2005)</li>
+                <li>Expo antol&oacute;gica &laquo;Diario de una pintora&raquo; (2012)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ═══ CENTER COLUMN ═══ -->
+    <div class="col-center">
+
+        <!-- Biografia -->
+        <div>
+            <h3 class="seccion-titulo">Biograf&iacute;a</h3>
+            <div class="bio-text">
+                <p><strong>Jane Millares</strong> fue una pintora eminentemente <strong>indigenista</strong>, la &uacute;nica mujer considerada part&iacute;cipe del movimiento art&iacute;stico indigenista en Canarias. Naci&oacute; en el seno de una familia humilde pero extraordinariamente talentosa. Su padre les ense&ntilde;aba en casa porque la econom&iacute;a familiar, especialmente tras la posguerra, no permit&iacute;a pagar colegio.</p>
+
+                <p>Se cas&oacute; muy joven, a los 17 a&ntilde;os (1944), con el periodista Luis Jorge Ram&iacute;rez, con quien tuvo cinco hijos. A pesar de las dificultades de la &eacute;poca, Jane desarroll&oacute; una impresionante carrera art&iacute;stica que abarc&oacute; m&aacute;s de seis d&eacute;cadas.</p>
+
+                <p>Su obra refleja profundamente la <strong>identidad canaria</strong>: mujeres campesinas, g&aacute;nigos (cer&aacute;mica prehisp&aacute;nica), pintaderas, petroglifos, calas y paisajes de las islas. Adem&aacute;s del indigenismo, explor&oacute; la <strong>abstracci&oacute;n l&iacute;rica</strong>, el <strong>surrealismo</strong> y el <strong>constructivismo</strong>, siempre con tem&aacute;tica canaria.</p>
+
+                <p>Ilustr&oacute; publicaciones como <em>Planas de Poes&iacute;a</em> y la revista <em>Millares</em>. Colabor&oacute; en la revista feminista <em>Mujeres en la isla</em> (1953-1965). Apoy&oacute; activamente la creaci&oacute;n de la <strong>Universidad de Las Palmas de Gran Canaria</strong> y defendi&oacute; el patrimonio natural y cultural de las islas durante toda su vida.</p>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div>
+            <h3 class="seccion-titulo">Trayectoria art&iacute;stica</h3>
+            <div class="timeline">
+                <div class="timeline-chip"><span class="year">1951</span> &ndash; Cofunda <strong>LADAC</strong> (Los Arqueros del Arte Contempor&aacute;neo) con sus hermanos.</div>
+                <div class="timeline-chip"><span class="year">1953</span> &ndash; Colabora en <em>Mujeres en la isla</em>, revista feminista pionera.</div>
+                <div class="timeline-chip"><span class="year">1955</span> &ndash; <strong>1.&ordf; mujer en exponer en solitario</strong> en Canarias (Museo Canario).</div>
+                <div class="timeline-chip"><span class="year">1965</span> &ndash; Participa en <em>&laquo;Las 12&raquo;</em>, 1.&ordf; expo solo de mujeres en Canarias.</div>
+                <div class="timeline-chip"><span class="year">1978</span> &ndash; Gran <strong>mural en la Calle de Triana</strong>, Las Palmas de G.C.</div>
+            </div>
+        </div>
+
+        <!-- Por que tiene una calle -->
+        <div>
+            <h3 class="seccion-titulo">&iquest;Por qu&eacute; tiene una calle con su nombre?</h3>
+            <div class="motivos">
+                <div class="motivo"><span class="num">1</span><strong>Pionera:</strong> primera mujer en exponer en solitario en Canarias (1955).</div>
+                <div class="motivo"><span class="num">2</span><strong>&Uacute;nica mujer</strong> del movimiento indigenista canario.</div>
+                <div class="motivo"><span class="num">3</span><strong>+60 a&ntilde;os</strong> de compromiso con la cultura e identidad canaria.</div>
+                <div class="motivo"><span class="num">4</span>Defensora del patrimonio y de la creaci&oacute;n de la <strong>ULPGC</strong>.</div>
+                <div class="motivo"><span class="num">5</span>Pieza clave de la <strong>familia Millares Sall</strong>, fundamental en la cultura canaria del siglo XX.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ RIGHT COLUMN ═══ -->
+    <div class="col-right">
+
+        <!-- Ubicacion -->
+        <div class="info-card">
+            <h4>Ubicaci&oacute;n de la calle</h4>
+            <div class="dato-row"><span class="dato-label">Zona:</span><span class="dato-val">Tamaraceite &ndash; Ciudad del Campo</span></div>
+            <div class="dato-row"><span class="dato-label">C.P.:</span><span class="dato-val">35018</span></div>
+            <div class="dato-row"><span class="dato-label">Distrito:</span><span class="dato-val">Tamaraceite-San Lorenzo-Tenoya</span></div>
+        </div>
+
+        <!-- Map -->
+        <div class="mapa-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3519.5!2d-15.45!3d28.08!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc40972e8f1a7d%3A0x0!2sCalle+Jane+Millares+Sall%2C+Las+Palmas+de+Gran+Canaria!5e0!3m2!1ses!2ses!4v1700000000000" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <a class="mapa-link" href="https://www.google.com/maps/search/Calle+Jane+Millares+Sall+Las+Palmas+de+Gran+Canaria" target="_blank" rel="noopener">Abrir en Google Maps &rarr;</a>
+        </div>
+
+        <!-- Distrito -->
+        <div class="info-card">
+            <h4>Distrito Tamaraceite-San Lorenzo-Tenoya</h4>
+            <p style="margin-bottom:5px;">Distrito con menor poblaci&oacute;n y mayor extensi&oacute;n de Las Palmas de G.C., al oeste de la ciudad.</p>
+            <p style="font-size:9.5px; margin-bottom:4px;"><strong>Oficina:</strong> C/ Cap. Gral. Guti&eacute;rrez Mellado, 15.</p>
+            <p style="font-size:9px; font-weight:600; margin-bottom:3px;">Barrios:</p>
+            <div class="ubicacion-tags">
+                <span class="ubicacion-tag hl">Tamaraceite</span>
+                <span class="ubicacion-tag hl">San Lorenzo</span>
+                <span class="ubicacion-tag hl">Tenoya</span>
+                <span class="ubicacion-tag">Almatriche</span>
+                <span class="ubicacion-tag">Hoya Andrea</span>
+                <span class="ubicacion-tag">Las Majadillas</span>
+                <span class="ubicacion-tag">La Suerte</span>
+                <span class="ubicacion-tag">Piletas</span>
+                <span class="ubicacion-tag">Cuevas Blancas</span>
+                <span class="ubicacion-tag">Casa Ayala</span>
+                <span class="ubicacion-tag">El Rom&aacute;n</span>
+                <span class="ubicacion-tag hl">Ciudad del Campo</span>
+                <span class="ubicacion-tag">Isla Perdida</span>
+                <span class="ubicacion-tag">Siete Puertas</span>
+                <span class="ubicacion-tag">Lomo los Frailes</span>
+            </div>
+        </div>
+
+        <!-- Fotos de la calle -->
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+            <h4 style="font-family:'Playfair Display',serif; font-size:12px; color:var(--azul);">La calle actualmente</h4>
+            <div style="flex:1; border-radius:8px; overflow:hidden; border:2px solid var(--borde);">
+                <img src="calle jane millares.jpeg" alt="Calle Jane Millares Sall" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <div style="flex:2; border-radius:8px; overflow:hidden; border:2px solid var(--borde);">
+                <img src="placa jane.jpeg" alt="Placa de la calle Jane Millares Sall" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer">
+        <span>Fuentes: Wikipedia &middot; CanariWiki &middot; CAAM &middot; Ayuntamiento de Las Palmas de Gran Canaria</span>
+        <span>|</span>
+        <span>Curso 2024&ndash;2025</span>
+    </footer>
+
+</div>
+
+</body>
+</html>
